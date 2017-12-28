@@ -1,0 +1,2 @@
+include umail/VERSION
+recursive-include umail *
