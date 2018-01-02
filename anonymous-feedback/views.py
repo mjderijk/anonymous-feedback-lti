@@ -2,7 +2,7 @@ from blti.views import BLTILaunchView
 
 
 class LaunchView(BLTILaunchView):
-    template_name = 'umail/home.html'
+    template_name = 'anonymous-feedback/home.html'
     authorized_role = 'admin'
 
     def get_context_data(self, **kwargs):
