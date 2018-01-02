@@ -7,7 +7,7 @@ See the README on `GitHub
 """
 
 # The VERSION file is created by travis-ci, based on the tag name
-version_path = 'anonymous-feedback/VERSION'
+version_path = 'anonymous_feedback/VERSION'
 VERSION = open(os.path.join(os.path.dirname(__file__), version_path)).read()
 VERSION = VERSION.replace("\n", "")
 
@@ -15,14 +15,15 @@ VERSION = VERSION.replace("\n", "")
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='Anonymous Feedback LTI',
+    name='Anonymous-Feedback-LTI',
     version=VERSION,
-    packages=['anonymous-feedback'],
+    packages=['anonymous_feedback'],
     include_package_data=True,
     install_requires = [
         'Django>=1.10,<1.11',
         'django-blti>=0.1',
         'Django-Safe-EmailBackend>=0.1,<1.0',
+        'UW-RestClients-Canvas>=0.6.6,<1.0',
     ],
     license='Apache License, Version 2.0',
     description='An LTI app that allows people to send you anonymous email directly to your email inbox.',
