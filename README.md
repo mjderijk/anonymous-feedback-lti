@@ -1,2 +1,2 @@
-# umail-lti
-Allows people to send you anonymous email from your web page directly to your email inbox.
+# anonymous-feedback-lti
+An LTI app that allows people to send you anonymous email directly to your email inbox.

@@ -1,0 +1,23 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <title>Anonymous Feedback</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="HandheldFriendly" content="true">
+
+    {% load staticfiles %}
+
+</head>
+<body>
+
+    <div id="wrapper" class="container" style="position:relative;">
+        <div id="main-wrapper">
+            <div id="main" aria-labelledby="anonymous-feedback-header">
+                <div class="inner">{% block content %}{% endblock %}</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

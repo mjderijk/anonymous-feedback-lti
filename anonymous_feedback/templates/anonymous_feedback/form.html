@@ -1,0 +1,28 @@
+{% extends 'anonymous_feedback/base.html' %}
+
+{% block content %}
+
+<h2 id="anonymous-feedback-header">Send Anonymous Feedback for {{ course_name }}</h2>
+
+<form action="/feedback/submit" method="post">
+    {% csrf_token %}
+
+    Recipients:
+    {% if recipients|length == 1 %}
+    <input type="checkbox" id="recipient-0" name="recipients" value="{{ recipient.email }}" checked="checked" disabled="disabled"/>
+    <label for="recipient-0">{{ recipient.name }}</label>
+    {% else %}
+    <ul>
+    {% for recipient in recipients %}
+    <li><input type="checkbox" id="recipient-{{ forloop.counter }}" name="recipients" value="{{ recipient.email }}" checked="checked"/> <label for="recipient-{{ forloop.counter }}">{{ recipient.name }}</label></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    Comments:
+    <textarea name="comments"></textarea>
+
+    <input type="submit" value="Send"/>
+</form>
+
+{% endblock content %}
