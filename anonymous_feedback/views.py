@@ -20,7 +20,7 @@ class LaunchView(BLTILaunchView):
         return {}
 
 
-class SubmitFeedbackView(BLTIView):
+class SubmitView(BLTIView):
     template_name = 'anonymous_feedback/submit.html'
     authorized_role = 'member'
 
