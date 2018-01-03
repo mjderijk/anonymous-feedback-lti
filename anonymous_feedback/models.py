@@ -1,4 +1,11 @@
 from django.db import models
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Form(models.Model):
@@ -19,4 +26,34 @@ class Form(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     def send_feedback(self, sender=None, recipients=[], comments=''):
-        pass
+        sender = self.validate_sender(sender)
+        comments = self.validate_comments(comments)
+        recipients = self.validate_recipients(recipients)
+        subject = 'Anonymous feedback'
+
+        message = EmailMultiAlternatives(subject, comments, sender, recipients)
+
+        try:
+            message.send()
+            log_message = 'Email sent'
+        except Exception as ex:
+            log_message = 'Email failed: %s' % ex
+
+        for recipient in recipients:
+            logger.info('%s, To: %s, Course: %s' % (
+                log_message, recipient, self.course_id))
+
+    def validate_sender(self, sender):
+        if self.sender_type == self.ANONYMOUS_SENDER:
+            return getattr(settings, 'EMAIL_NOREPLY_ADDRESS')
+
+    def validate_comments(self, comments):
+        comments = comments.strip()
+        if not len(comments):
+            raise ValidationError('todo', code='missing')
+        return comments
+
+    def validate_recipients(self, recipients):
+        if not len(recipients):
+            raise ValidationError('todo', code='missing')
+        return recipients
