@@ -1,2 +1,2 @@
 # anonymous-feedback-lti
-An LTI app that allows people to send you anonymous email directly to your email inbox.
+An LTI app that allows course members to submit anonymous comments.

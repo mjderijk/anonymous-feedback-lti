@@ -2,8 +2,6 @@
 
 {% block content %}
 
-{% if can_edit %}<a href="/feedback/edit">Edit</a>{% endif %}
-
 <h2 id="anonymous-feedback-header">{{ name }}</h2>
 
 {% if description %}
@@ -13,14 +11,7 @@
 <form action="/feedback/submit" method="post">
     {% csrf_token %}
 
-    Recipients:
-    <ul>
-        {% for recipient in recipients %}
-        <li><input type="checkbox" id="recipient-{{ recipient.user_id }}" name="recipients" value="{{ recipient.user_id }}" checked="checked"{% if recipients|length == 1 %} disabled="disabled"{% endif %}/> <label for="recipient-{{ recipient.user_id }}">{{ recipient.name }}</label></li>
-        {% endfor %}
-    </ul>
-
-    Comments:
+    Your comments:
     <textarea name="comments"></textarea>
 
     <div>

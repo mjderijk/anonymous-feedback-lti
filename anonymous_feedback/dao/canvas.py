@@ -1,8 +1,8 @@
 from uw_canvas.users import Users
 
 
-def get_recipients_for_course(course_id, user_id):
-    users = Users(as_user=user_id).get_users_for_course(course_id, params={
+def get_recipients_for_course(course_id):
+    users = Users().get_users_for_course(course_id, params={
         'enrollment_type': ['teacher', 'ta'],
         'include': ['email']})
 

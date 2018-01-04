@@ -1,0 +1,15 @@
+{% extends 'anonymous_feedback/base.html' %}
+
+{% block content %}
+
+<h2 id="anonymous-feedback-header">Comments</h2>
+
+{% for comment in comments %}
+
+<div>{{ comment.created_date }}</div>
+<div>{{ comment.comment }}</div>
+<br/><br/>
+
+{% endfor %}
+
+{% endblock content %}
