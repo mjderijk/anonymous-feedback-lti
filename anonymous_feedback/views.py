@@ -2,26 +2,24 @@ from django.core.exceptions import ValidationError
 from blti import BLTIException
 from blti.validators import BLTIRoles
 from blti.views import BLTIView, BLTILaunchView
-from anonymous_feedback.models import Form
-from anonymous_feedback.dao.canvas import get_recipients_for_course
+from anonymous_feedback.models import Form, Comment
 
 
-def _form_context(**kwargs):
-    blti_data = kwargs.get('blti_params')
-    sis_course_id = blti_data.get('lis_course_offering_sourcedid')
+def _form_context(blti_data):
+    course_id = blti_data.get('custom_canvas_course_id')
 
-    form, created = Form.objects.get_or_create(course_id=sis_course_id)
+    form, created = Form.objects.get_or_create(course_id=course_id)
     if created:
-        course_name = blti_data.get('context_label')
-        form.name = 'Send Anonymous Feedback for %s' % course_name
-        form.save()
+	course_name = blti_data.get('context_label')
+	form.name = 'Send Anonymous Feedback for %s' % course_name
+	form.save()
 
     context = form.json_data()
-    context['recipients'] = blti_data['instructors']
 
     try:
         BLTIRoles().validate(blti_data, 'admin')
         context['can_edit'] = True
+        context['can_view_comments'] = True
     except BLTIException:
         pass
 
@@ -33,16 +31,7 @@ class LaunchView(BLTILaunchView):
     authorized_role = 'member'
 
     def get_context_data(self, **kwargs):
-        request = kwargs.get('request')
-        blti_data = kwargs.get('blti_params')
-        user_id = blti_data.get('custom_canvas_user_id')
-        course_id = blti_data.get('custom_canvas_course_id')
-
-        instructors = get_recipients_for_course(course_id, user_id)
-        blti_data['instructors'] = instructors
-        self.set_session(request, **blti_data)
-
-        return _form_context(**kwargs)
+        return _form_context(kwargs.get('blti_params'))
 
 
 class EditView(BLTIView):
@@ -51,22 +40,13 @@ class EditView(BLTIView):
     authorized_role = 'admin'
 
     def get_context_data(self, **kwargs):
-        request = kwargs.get('request')
-        blti_data = kwargs.get('blti_params')
-        sis_course_id = blti_data.get('lis_course_offering_sourcedid')
-
-        try:
-            form = Form.objects.get(course_id=sis_course_id)
-        except Form.DoesNotExist:
-            return self.render_to_response({}, status=401)
-
-        return form.json_data()
+        return _form_context(kwargs.get('blti_params'))
 
     def post(self, request, *args, **kwargs):
         try:
             blti_data = self.validate(request)
-            sis_course_id = blti_data.get('lis_course_offering_sourcedid')
-            form = Form.objects.get(course_id=sis_course_id)
+            course_id = blti_data.get('custom_canvas_course_id')
+            form = Form.objects.get(course_id=course_id)
         except BLTIException as err:
             self.template_name = 'blti/401.html'
             return self.render_to_response({}, status=401)
@@ -78,8 +58,15 @@ class EditView(BLTIView):
         form.save()
 
         self.template_name = 'anonymous_feedback/form.html'
-        context = _form_context(request=request, blti_params=blti_data)
-        return self.render_to_response(context)
+        return self.render_to_response(_form_context(blti_data))
+
+
+class CommentView(BLTIView):
+    template_name = 'anonymous_feedback/comments.html'
+    authorized_role = 'admin'
+
+    def get_context_data(self, **kwargs):
+        return _form_context(kwargs.get('blti_params'))
 
 
 class SubmitView(BLTIView):
@@ -90,28 +77,19 @@ class SubmitView(BLTIView):
     def post(self, request, *args, **kwargs):
         try:
             blti_data = self.validate(request)
-            sis_course_id = blti_data.get('lis_course_offering_sourcedid')
-            form = Form.objects.get(course_id=sis_course_id)
+            course_id = blti_data.get('custom_canvas_course_id')
+            form = Form.objects.get(course_id=course_id)
         except BLTIException as err:
             self.template_name = 'blti/401.html'
             return self.render_to_response({}, status=401)
         except Form.DoesNotExist:
             return self.render_to_response({}, status=401)
 
-        comments = request.POST.get('comments', '')
-
-        recipients = []
-        for user_id in request.POST.getlist('recipients', []):
-            for instructor in blti_data['instructors']:
-                if int(user_id) == instructor['user_id']:
-                    recipients.append(instructor['email'])
-                    break
+        comment_str = request.POST.get('comments', '')
 
         try:
-            form.send_feedback(recipients=recipients, comments=comments)
-            context = form.json_data()
+            form.add_comment(comment_str)
         except ValidationError as ex:
             self.template_name = 'anonymous_feedback/form.html'
-            context = _form_context(request=request, blti_params=blti_data)
 
-        return self.render_to_response(context)
+        return self.render_to_response(_form_context(blti_data))

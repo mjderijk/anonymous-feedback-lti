@@ -16,6 +16,10 @@
     <div id="wrapper" class="container" style="position:relative;">
         <div id="main-wrapper">
             <div id="main" aria-labelledby="anonymous-feedback-header">
+                {% if can_edit %}
+                <a href="/feedback/edit">Customize form</a> |
+                <a href="/feedback/view">View comments ({{ comments|length }})</a>
+                {% endif %}
                 <div class="inner">{% block content %}{% endblock %}</div>
             </div>
         </div>

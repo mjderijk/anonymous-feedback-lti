@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMultiAlternatives
 import logging
 
 
@@ -19,7 +18,7 @@ class Form(models.Model):
         (REQUIRED_SENDER, 'Required')
     )
 
-    course_id = models.CharField(max_length=80, unique=True)
+    course_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=128, null=True)
     description = models.TextField(null=True)
     sender_type = models.CharField(max_length=20,
@@ -29,40 +28,34 @@ class Form(models.Model):
 
     def json_data(self):
         return {
+            'course_id': self.course_id,
             'name': self.name if (self.name is not None) else '',
             'description': self.description if (
                 self.description is not None) else '',
+            'created_date': self.created_date.isoformat(),
+            'comments': self.comment_set.all(),
         }
 
-    def send_feedback(self, sender=None, recipients=[], comments=''):
-        sender = self.validate_sender(sender)
-        comments = self.validate_comments(comments)
-        recipients = self.validate_recipients(recipients)
-        subject = 'Anonymous feedback'
+    def add_comment(self, comment_str):
+        comment_str = self.validate_comment(comment_str)
+        comment = self.comment_set.create(comment=comment_str)
 
-        message = EmailMultiAlternatives(subject, comments, sender, recipients)
+        #TODO: notify instructors?
 
-        try:
-            message.send()
-            log_message = 'Email sent'
-        except Exception as ex:
-            log_message = 'Email failed: %s' % ex
+    def validate_comment(self, comment):
+        comment = comment.strip()
+        if not len(comment):
+            raise ValidationError('Missing comment', code='missing')
+        return comment
 
-        for recipient in recipients:
-            logger.info('%s, To: %s, Course: %s' % (
-                log_message, recipient, self.course_id))
 
-    def validate_sender(self, sender):
-        if self.sender_type == self.ANONYMOUS_SENDER:
-            return getattr(settings, 'EMAIL_NOREPLY_ADDRESS')
+class Comment(models.Model):
+    comment = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
-    def validate_comments(self, comments):
-        comments = comments.strip()
-        if not len(comments):
-            raise ValidationError('todo', code='missing')
-        return comments
-
-    def validate_recipients(self, recipients):
-        if not len(recipients):
-            raise ValidationError('todo', code='missing')
-        return recipients
+    def json_data(self):
+        return {
+            'comment': self.comment,
+            'created_date': self.created_date.isoformat(),
+        }
