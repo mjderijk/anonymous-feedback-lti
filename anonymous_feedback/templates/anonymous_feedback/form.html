@@ -2,27 +2,30 @@
 
 {% block content %}
 
-<h2 id="anonymous-feedback-header">Send Anonymous Feedback for {{ course_name }}</h2>
+{% if can_edit %}<a href="/feedback/edit">Edit</a>{% endif %}
+
+<h2 id="anonymous-feedback-header">{{ name }}</h2>
+
+{% if description %}
+<p>{{ description }}</p>
+{% endif %}
 
 <form action="/feedback/submit" method="post">
     {% csrf_token %}
 
     Recipients:
-    {% if recipients|length == 1 %}
-    <input type="checkbox" id="recipient-0" name="recipients" value="{{ recipient.email }}" checked="checked" disabled="disabled"/>
-    <label for="recipient-0">{{ recipient.name }}</label>
-    {% else %}
     <ul>
-    {% for recipient in recipients %}
-    <li><input type="checkbox" id="recipient-{{ forloop.counter }}" name="recipients" value="{{ recipient.email }}" checked="checked"/> <label for="recipient-{{ forloop.counter }}">{{ recipient.name }}</label></li>
-    {% endfor %}
+        {% for recipient in recipients %}
+        <li><input type="checkbox" id="recipient-{{ recipient.user_id }}" name="recipients" value="{{ recipient.user_id }}" checked="checked"{% if recipients|length == 1 %} disabled="disabled"{% endif %}/> <label for="recipient-{{ recipient.user_id }}">{{ recipient.name }}</label></li>
+        {% endfor %}
     </ul>
-    {% endif %}
 
     Comments:
     <textarea name="comments"></textarea>
 
-    <input type="submit" value="Send"/>
+    <div>
+        <input type="submit" value="Send"/>
+    </div>
 </form>
 
 {% endblock content %}
