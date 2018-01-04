@@ -2,7 +2,13 @@
 
 {% block content %}
 
-<h2 id="anonymous-feedback-header">Send Anonymous Feedback for {{ course_name }}</h2>
+{% if can_edit %}<a href="/feedback/edit">Edit</a>{% endif %}
+
+<h2 id="anonymous-feedback-header">{{ name }}</h2>
+
+{% if description %}
+<p>{{ description }}</p>
+{% endif %}
 
 <form action="/feedback/submit" method="post">
     {% csrf_token %}
@@ -17,7 +23,9 @@
     Comments:
     <textarea name="comments"></textarea>
 
-    <input type="submit" value="Send"/>
+    <div>
+        <input type="submit" value="Send"/>
+    </div>
 </form>
 
 {% endblock content %}

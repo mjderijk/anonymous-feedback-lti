@@ -20,10 +20,19 @@ class Form(models.Model):
     )
 
     course_id = models.CharField(max_length=80, unique=True)
+    name = models.CharField(max_length=128, null=True)
+    description = models.TextField(null=True)
     sender_type = models.CharField(max_length=20,
                                    choices=SENDER_CHOICES,
                                    default=ANONYMOUS_SENDER)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    def json_data(self):
+        return {
+            'name': self.name if (self.name is not None) else '',
+            'description': self.description if (
+                self.description is not None) else '',
+        }
 
     def send_feedback(self, sender=None, recipients=[], comments=''):
         sender = self.validate_sender(sender)

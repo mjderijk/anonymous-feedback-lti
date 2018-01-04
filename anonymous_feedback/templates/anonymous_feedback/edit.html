@@ -1,0 +1,21 @@
+{% extends 'anonymous_feedback/base.html' %}
+
+{% block content %}
+
+<h2 id="anonymous-feedback-header">Edit Form</h2>
+
+<form action="/feedback/edit" method="post">
+    {% csrf_token %}
+
+    <label for="form-name">Name</label>
+    <input id="form-name" type="text" name="name" value="{{ name }}"/>
+
+    <label for="form-description">Description</label>
+    <textarea id="form-description" name="description">{{ description }}</textarea>
+
+    <div>
+        <input type="submit" value="Update"/>
+    </div>
+</form>
+
+{% endblock content %}
