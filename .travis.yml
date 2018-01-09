@@ -14,7 +14,7 @@ before_script:
 - cp travis-ci/manage.py manage.py
 script:
 - pep8 anonymous_feedback/ --exclude=migrations
-- jshint anonymous_feedback/static/anonymous_feedback/js/  --verbose
+#- jshint anonymous_feedback/static/anonymous_feedback/js/  --verbose
 - coverage run --source=anonymous_feedback/ manage.py test anonymous_feedback
 after_success:
 - coveralls
