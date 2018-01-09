@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.core.exceptions import ValidationError
 import logging
 
@@ -8,22 +7,22 @@ logger = logging.getLogger(__name__)
 
 
 class Form(models.Model):
-    ANONYMOUS_SENDER = 'anonymous'
-    OPTIONAL_SENDER = 'optional'
-    REQUIRED_SENDER = 'required'
+    ANONYMOUS_COMMENTER = 'anonymous'
+    OPTIONAL_COMMENTER = 'optional'
+    REQUIRED_COMMENTER = 'required'
 
-    SENDER_CHOICES = (
-        (ANONYMOUS_SENDER, 'Anonymous'),
-        (OPTIONAL_SENDER, 'Optional'),
-        (REQUIRED_SENDER, 'Required')
+    COMMENTER_CHOICES = (
+        (ANONYMOUS_COMMENTER, 'Anonymous'),
+        (OPTIONAL_COMMENTER, 'Optional'),
+        (REQUIRED_COMMENTER, 'Required')
     )
 
     course_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=128, null=True)
     description = models.TextField(null=True)
-    sender_type = models.CharField(max_length=20,
-                                   choices=SENDER_CHOICES,
-                                   default=ANONYMOUS_SENDER)
+    commenter_type = models.CharField(max_length=20,
+                                      choices=COMMENTER_CHOICES,
+                                      default=ANONYMOUS_COMMENTER)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def json_data(self):
@@ -32,30 +31,27 @@ class Form(models.Model):
             'name': self.name if (self.name is not None) else '',
             'description': self.description if (
                 self.description is not None) else '',
-            'created_date': self.created_date.isoformat(),
-            'comments': self.comment_set.all(),
+            'comments': self.comment_set.all().order_by('-created_date'),
         }
 
-    def add_comment(self, comment_str):
-        comment_str = self.validate_comment(comment_str)
-        comment = self.comment_set.create(comment=comment_str)
+    def add_comment(self, content=''):
+        content = self.validate_comment(content)
+        comment = self.comment_set.create(content=content)
 
-        #TODO: notify instructors?
-
-    def validate_comment(self, comment):
-        comment = comment.strip()
-        if not len(comment):
+    def validate_comment(self, content):
+        content = content.strip()
+        if not len(content):
             raise ValidationError('Missing comment', code='missing')
-        return comment
+        return content
 
 
 class Comment(models.Model):
-    comment = models.TextField()
+    content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
     def json_data(self):
         return {
-            'comment': self.comment,
+            'content': self.content,
             'created_date': self.created_date.isoformat(),
         }
