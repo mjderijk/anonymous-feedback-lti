@@ -1,0 +1,16 @@
+{% load templatetag_handlebars %}
+{% tplhandlebars "comments-tmpl" %}
+<h2 id="anonymous-feedback-header">Comments</h2>
+
+{{# if comments }}
+<a href="#">Download all</a> |
+<a href="#">Delete all</a>
+{{ /if }}
+
+{{# each comments }}
+<div>{{ created_date }}</div>
+<div>{{ content }}</div>
+<a href="#">Delete comment</a>
+<hr/>
+{{ /each }}
+{% endtplhandlebars %}

@@ -31,8 +31,11 @@ class Form(models.Model):
             'name': self.name if (self.name is not None) else '',
             'description': self.description if (
                 self.description is not None) else '',
-            'comments': self.comment_set.all().order_by('-created_date'),
+            'type': self.commenter_type,
         }
+
+    def comments(self):
+        return self.comment_set.all().order_by('-created_date')
 
     def add_comment(self, content=''):
         content = self.validate_comment(content)
@@ -46,12 +49,14 @@ class Form(models.Model):
 
 
 class Comment(models.Model):
+    user_id = models.IntegerField(null=True)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
     def json_data(self):
         return {
+            'user_id': self.user_id,
             'content': self.content,
             'created_date': self.created_date.isoformat(),
         }
