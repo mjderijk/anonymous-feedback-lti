@@ -3,7 +3,7 @@
 (function ($) {
     'use strict';
     $(document).ready(function () {
-        var API = '/api/v1/form/' + window.anonymous_feedback.canvas_course_id;
+        var API = 'api/v1/form/' + window.anonymous_feedback.canvas_course_id;
 
         $.ajaxSetup({
             crossDomain: false,

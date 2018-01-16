@@ -18,7 +18,7 @@ class LaunchView(BLTILaunchView):
 
         context = {
             'session_id': self.request.session.session_key,
-            'canvas_course_id': course_id,
+            'course_id': course_id,
             'can_edit': False,
         }
 
