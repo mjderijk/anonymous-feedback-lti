@@ -4,7 +4,7 @@ from anonymous_feedback.models import Form
 
 
 class LaunchView(BLTILaunchView):
-    template_name = 'anonymous_feedback/form.html'
+    template_name = 'anonymous_feedback/base.html'
     authorized_role = 'member'
 
     def get_context_data(self, **kwargs):
@@ -16,9 +16,11 @@ class LaunchView(BLTILaunchView):
                 self.blti.course_short_name)
             form.save()
 
-        context = {}
-        content['form'] = form.json_data()
-        context['session_id'] = self.request.session.session_key
+        context = {
+            'session_id': self.request.session.session_key,
+            'canvas_course_id': course_id,
+            'can_edit': False,
+        }
 
         try:
             self.authorize('admin')

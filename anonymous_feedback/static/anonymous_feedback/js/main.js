@@ -3,7 +3,7 @@
 (function ($) {
     'use strict';
     $(document).ready(function () {
-        var API = '/api/v1/form/' + window.anonymous_feedback.form.course_id;
+        var API = '/api/v1/form/' + window.anonymous_feedback.canvas_course_id;
 
         $.ajaxSetup({
             crossDomain: false,
@@ -73,7 +73,7 @@
         function initialize() {
             $('button.af-btn-customize').click(init_customize);
             $('button.af-btn-comments').click(init_comments);
-            load_form(window.anonymous_feedback.form);
+            $.ajax({url: API, dataType: 'json'}).fail().done(load_form);
         }
 
         initialize();
