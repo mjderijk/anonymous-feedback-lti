@@ -60,6 +60,8 @@
 
         function load_form(data) {
             var template = Handlebars.compile($('#form-tmpl').html());
+            data.has_description = (data.description && data.description.length);
+
             $('#af-content').html(template(data));
             $('#af-header').html(data.name);
             $('button.af-btn-submit').click(submit_feedback);
@@ -71,7 +73,7 @@
             $('#af-content').html(template(data));
             $('#af-header').html('Customize Form');
             $('button.af-btn-update').click(update_form);
-            $('button.af-btn-cancel').click(load_form);
+            $('button.af-btn-cancel').click(init_form);
             update_comment_count(data);
         }
 
@@ -91,11 +93,15 @@
         }
 
         function init_form() {
-            $('button.af-btn-customize').click(init_customize);
-            $('button.af-btn-comments').click(init_comments);
             get_form().fail().done(load_form);
         }
 
-        init_form();
+        function initialize() {
+            $('.af-btn-customize').click(init_customize);
+            $('.af-btn-comments').click(init_comments);
+            init_form();
+        }
+
+        initialize();
     });
 }(jQuery));
