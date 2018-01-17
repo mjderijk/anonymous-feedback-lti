@@ -13,7 +13,7 @@ class FormAPI(RESTDispatch):
     authorized_role = 'member'
 
     def get(self, request, *args, **kwargs):
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
         return self.json_response(form.json_data())
 
     def put(self, request, *args, **kwargs):
@@ -22,7 +22,7 @@ class FormAPI(RESTDispatch):
         except BLTIException as err:
             return self.error_response(401, err)
 
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
         try:
             data = json.loads(request.body)
             form.name = data.get('name')
@@ -43,14 +43,14 @@ class CommentsAPI(RESTDispatch):
         except BLTIException as err:
             return self.error_response(401, err)
 
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
 
         data = form.json_data()
         data['comments'] = [c.json_data() for c in form.comments()]
         return self.json_response(data)
 
     def post(self, request, *args, **kwargs):
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
 
         try:
             data = json.loads(request.body)
@@ -66,7 +66,11 @@ class CommentsAPI(RESTDispatch):
         except BLTIException as err:
             return self.error_response(401, err)
 
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
+        form.delete_all_comments()
+
+        return self.json_response(form.json_data())
+
 
 class CommentAPI(RESTDispatch):
     authorized_role = 'admin'
@@ -77,4 +81,4 @@ class CommentAPI(RESTDispatch):
         except BLTIException as err:
             return self.error_response(401, err)
 
-        form = Form.objects.get(course_id=self.blti.canvas_course_id)
+        form = Form.objects.get_by_course_id(self.blti.canvas_course_id)

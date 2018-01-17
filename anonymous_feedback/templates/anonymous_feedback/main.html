@@ -6,7 +6,7 @@
 {% if can_edit %}
 <div>
 	<a class="af-btn-customize" href="#">Customize form</a> |
-	<a class="af-btn-comments" href="#">View comments ({{ comments|length }})</a>
+    <a class="af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a>
 </div>
 {% endif %}
 <h2 id="af-header"></h2>

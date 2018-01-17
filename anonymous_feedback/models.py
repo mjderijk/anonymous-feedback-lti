@@ -6,6 +6,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+class FormManager(models.Manager):
+    def get_by_course_id(self, course_id):
+        return Form.objects.get(course_id=course_id).annotate(
+            comment_count=models.Count('comment'))
+
+
 class Form(models.Model):
     ANONYMOUS_COMMENTER = 'anonymous'
     OPTIONAL_COMMENTER = 'optional'
@@ -25,6 +31,8 @@ class Form(models.Model):
                                       default=ANONYMOUS_COMMENTER)
     created_date = models.DateTimeField(auto_now_add=True)
 
+    objects = FormManager()
+
     def json_data(self):
         return {
             'course_id': self.course_id,
@@ -32,6 +40,7 @@ class Form(models.Model):
             'description': self.description if (
                 self.description is not None) else '',
             'type': self.commenter_type,
+            'comment_count': self.comment_count,
         }
 
     def comments(self):
@@ -40,6 +49,15 @@ class Form(models.Model):
     def add_comment(self, content=''):
         content = self.validate_comment(content)
         comment = self.comment_set.create(content=content)
+
+    def delete_comment(self, comment_id):
+        for comment in self.comment_set.all():
+            if comment.id == comment_id:
+                comment.delete()
+                break
+
+    def delete_all_comments(self):
+        self.comment_set.all().delete()
 
     def validate_comment(self, content):
         content = content.strip()

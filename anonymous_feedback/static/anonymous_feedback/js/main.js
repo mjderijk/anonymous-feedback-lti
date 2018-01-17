@@ -19,6 +19,14 @@
             }
         });
 
+        function get_form() {
+            return $.ajax({url: API, dataType: 'json'});
+        }
+
+        function get_comments() {
+            return $.ajax({url: API + '/comments', dataType: 'json'});
+        }
+
         function submit_feedback() {
             var content = $.trim($("textarea[name='comments']").val());
 
@@ -44,11 +52,18 @@
             }).fail(load_customize).done(load_form);
         }
 
+        function update_comment_count(data) {
+            if (data.hasOwnProperty('comment_count')) {
+                $('.af-comment-count').text(data.comment_count);
+            }
+        }
+
         function load_form(data) {
             var template = Handlebars.compile($('#form-tmpl').html());
             $('#af-content').html(template(data));
             $('#af-header').html(data.name);
             $('button.af-btn-submit').click(submit_feedback);
+            update_comment_count(data);
         }
 
         function load_customize(data) {
@@ -57,28 +72,30 @@
             $('#af-header').html('Customize Form');
             $('button.af-btn-update').click(update_form);
             $('button.af-btn-cancel').click(load_form);
+            update_comment_count(data);
         }
 
         function load_comments(data) {
             var template = Handlebars.compile($('#comments-tmpl').html());
             $('#af-content').html(template(data));
             $('#af-header').html('Comments');
+            update_comment_count(data);
         }
 
         function init_customize() {
-            $.ajax({url: API, dataType: 'json'}).fail().done(load_customize);
+            get_form().fail().done(load_customize);
         }
 
         function init_comments() {
-            $.ajax({url: API, dataType: 'json'}).fail().done(load_comments);
+            get_comments().fail().done(load_comments);
         }
 
-        function initialize() {
+        function init_form() {
             $('button.af-btn-customize').click(init_customize);
             $('button.af-btn-comments').click(init_comments);
-            $.ajax({url: API, dataType: 'json'}).fail().done(load_form);
+            get_form().fail().done(load_form);
         }
 
-        initialize();
+        init_form();
     });
 }(jQuery));

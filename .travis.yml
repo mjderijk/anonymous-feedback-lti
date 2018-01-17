@@ -9,11 +9,11 @@ before_script:
 - pip install -r requirements.txt
 - pip install coverage
 - pip install python-coveralls
-- pip install pep8
-- npm install jshint
+- pip install pycodestyle
+- npm install -g jshint
 - cp travis-ci/manage.py manage.py
 script:
-- pep8 anonymous_feedback/ --exclude=migrations
+- pycodestyle anonymous_feedback/ --exclude=migrations
 - jshint anonymous_feedback/static/anonymous_feedback/js/ --verbose
 - coverage run --source=anonymous_feedback/ manage.py test anonymous_feedback
 after_success:

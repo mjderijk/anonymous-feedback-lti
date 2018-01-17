@@ -25,7 +25,7 @@ class LaunchView(BLTILaunchView):
         try:
             self.authorize('admin')
             context['can_edit'] = True
-            context['comments'] = form.comments()
+            context['comment_count'] = len(form.comments())
         except BLTIException:
             pass
 
