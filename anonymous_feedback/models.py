@@ -8,8 +8,7 @@ logger = logging.getLogger(__name__)
 
 class FormManager(models.Manager):
     def get_by_course_id(self, course_id):
-        return Form.objects.get(course_id=course_id).annotate(
-            comment_count=models.Count('comment'))
+        return Form.objects.get(course_id=course_id)
 
 
 class Form(models.Model):
@@ -40,7 +39,7 @@ class Form(models.Model):
             'description': self.description if (
                 self.description is not None) else '',
             'type': self.commenter_type,
-            'comment_count': self.comment_count,
+            'comment_count': self.comment_set.count(),
         }
 
     def comments(self):

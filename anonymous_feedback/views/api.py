@@ -54,7 +54,7 @@ class CommentsAPI(RESTDispatch):
 
         try:
             data = json.loads(request.body)
-            form.add_comment(content=data.get('comment', {}).get('content'))
+            form.add_comment(content=data.get('content'))
         except (ValueError, ValidationError) as err:
             return self.error_response(400, err)
 
