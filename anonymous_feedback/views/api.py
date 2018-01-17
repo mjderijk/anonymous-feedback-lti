@@ -28,8 +28,8 @@ class FormAPI(RESTDispatch):
             form.name = data.get('name')
             form.description = data.get('description')
             form.save()
-        except ValidationError as ex:
-            return self.error_json(400, err)
+        except (ValueError, ValidationError) as err:
+            return self.error_response(400, err)
 
         return self.json_response(form.json_data())
 
@@ -54,9 +54,9 @@ class CommentsAPI(RESTDispatch):
 
         try:
             data = json.loads(request.body)
-            form.add_comment(content=data.get('content'))
-        except ValidationError as err:
-            return self.error_json(400, err)
+            form.add_comment(content=data.get('comment', {}).get('content'))
+        except (ValueError, ValidationError) as err:
+            return self.error_response(400, err)
 
         return self.json_response(form.json_data())
 

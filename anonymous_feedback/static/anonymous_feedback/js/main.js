@@ -27,7 +27,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'POST',
-                data: JSON.stringify({comment: {content: content}})
+                data: JSON.stringify({content: content})
             }).fail(load_form).done(load_form);
         }
 
@@ -40,8 +40,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'PUT',
-                data: JSON.stringify({form: {name: name,
-                                             description: description}})
+                data: JSON.stringify({name: name, description: description})
             }).fail(load_customize).done(load_form);
         }
 
