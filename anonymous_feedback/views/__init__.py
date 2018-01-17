@@ -4,7 +4,7 @@ from anonymous_feedback.models import Form
 
 
 class LaunchView(BLTILaunchView):
-    template_name = 'anonymous_feedback/base.html'
+    template_name = 'anonymous_feedback/main.html'
     authorized_role = 'member'
 
     def get_context_data(self, **kwargs):

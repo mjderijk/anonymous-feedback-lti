@@ -1,0 +1,57 @@
+{% extends 'anonymous_feedback/base.html' %}
+
+{% load templatetag_handlebars %}
+
+{% block content %}
+{% if can_edit %}
+<div>
+	<a class="af-btn-customize" href="#">Customize form</a> |
+	<a class="af-btn-comments" href="#">View comments ({{ comments|length }})</a>
+</div>
+{% endif %}
+<h2 id="af-header"></h2>
+<div id="af-content"></div>
+
+{% tplhandlebars "form-tmpl" %}
+{{# if has_description }}
+<p>{{ description }}</p>
+{{ /if }}
+<div>
+	Your comments:
+	<textarea name="comments">{{ content }}</textarea>
+</div>
+<div>
+	<button type="submit" class="btn af-btn af-btn-submit">Submit</button>
+</div>
+{% endtplhandlebars %}
+
+{% tplhandlebars "comments-tmpl" %}
+{{# if comments }}
+<a class="af-btn-download-all" href="#">Download all</a> |
+<a class="af-btn-delete-all" href="#">Delete all</a>
+{{ /if }}
+
+{{# each comments }}
+<div>{{ created_date }}</div>
+<div>{{ content }}</div>
+<a class="af-btn-delete" href="#">Delete comment</a>
+<hr/>
+{{ /each }}
+{% endtplhandlebars %}
+
+{% tplhandlebars "customize-tmpl" %}
+<div>
+    <label for="form-name">Name</label>
+    <input id="form-name" type="text" name="name" value="{{ name }}"/>
+</div>
+<div>
+    <label for="form-description">Description</label>
+    <textarea id="form-description" name="description">{{ description }}</textarea>
+</div>
+<div>
+    <button type="submit" class="btn af-btn af-btn-update">Update</button>
+    <button type="submit" class="btn af-btn af-btn-cancel">Cancel</button>
+</div>
+{% endtplhandlebars %}
+
+{% endblock %}

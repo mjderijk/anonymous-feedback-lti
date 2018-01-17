@@ -16,18 +16,7 @@
     <div id="wrapper" class="container" style="position:relative;">
         <div id="main-wrapper">
             <div id="main" aria-labelledby="anonymous-feedback-header">
-                {% if can_edit %}
-                <div>
-                    <a class="af-btn-customize" href="#">Customize form</a> |
-                    <a class="af-btn-comments" href="#">View comments ({{ comments|length }})</a>
-                </div>
-                {% endif %}
-                <div id="af-content" class="inner">
-                    {% block content %}{% endblock %}
-                </div>
-                {% include "handlebars/form.html" %}
-                {% include "handlebars/customize.html" %}
-                {% include "handlebars/comments.html" %}
+                <div class="inner">{% block content %}{% endblock %}</div>
             </div>
         </div>
     </div>

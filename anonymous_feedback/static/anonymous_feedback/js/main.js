@@ -27,7 +27,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'POST',
-                data: JSON.stringify({content: content})
+                data: JSON.stringify({comment: {content: content}})
             }).fail(load_form).done(load_form);
         }
 
@@ -40,19 +40,22 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'PUT',
-                data: JSON.stringify({name: name, description: description})
+                data: JSON.stringify({form: {name: name,
+                                             description: description}})
             }).fail(load_customize).done(load_form);
         }
 
         function load_form(data) {
             var template = Handlebars.compile($('#form-tmpl').html());
             $('#af-content').html(template(data));
+            $('#af-header').html(data.name);
             $('button.af-btn-submit').click(submit_feedback);
         }
 
         function load_customize(data) {
             var template = Handlebars.compile($('#customize-tmpl').html());
             $('#af-content').html(template(data));
+            $('#af-header').html('Customize Form');
             $('button.af-btn-update').click(update_form);
             $('button.af-btn-cancel').click(load_form);
         }
@@ -60,6 +63,7 @@
         function load_comments(data) {
             var template = Handlebars.compile($('#comments-tmpl').html());
             $('#af-content').html(template(data));
+            $('#af-header').html('Comments');
         }
 
         function init_customize() {
