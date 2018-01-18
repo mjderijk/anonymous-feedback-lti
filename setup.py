@@ -21,7 +21,7 @@ setup(
     include_package_data=True,
     install_requires = [
         'Django>=1.10,<1.11',
-        'django-blti>=1.2.3',
+        'django-blti>=1.2.4',
         'Django-Safe-EmailBackend>=0.1,<1.0',
         'UW-RestClients-Canvas>=0.6.6,<1.0',
     ],
