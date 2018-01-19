@@ -23,8 +23,15 @@
             return $.ajax({url: API, dataType: 'json'});
         }
 
-        function get_comments() {
-            return $.ajax({url: API + '/comments', dataType: 'json'});
+        function get_comments(ev) {
+            var params = {url: API + '/comments'};
+
+            if (ev.data.hasOwnProperty('accept')) {
+                params.accept = ev.data.accept;
+            } else {
+                params.dataType = 'json';
+            }
+            return $.ajax(params);
         }
 
         function submit_feedback() {
@@ -81,6 +88,9 @@
             var template = Handlebars.compile($('#comments-tmpl').html());
             $('#af-content').html(template(data));
             $('#af-header').html('Comments');
+            $('af-btn-download-all').click({accept: 'text/csv'}, get_comments);
+            //$('af-btn-delete-all').click();
+            //$('af-btn-delete').click();
             update_comment_count(data);
         }
 

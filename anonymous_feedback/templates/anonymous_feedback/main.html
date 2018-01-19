@@ -34,7 +34,7 @@
 {{# each comments }}
 <div>{{ created_date }}</div>
 <div>{{ content }}</div>
-<a class="af-btn-delete" href="#">Delete comment</a>
+<a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
 <hr/>
 {{ /each }}
 {% endtplhandlebars %}

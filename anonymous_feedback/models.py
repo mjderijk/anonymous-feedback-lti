@@ -73,6 +73,7 @@ class Comment(models.Model):
 
     def json_data(self):
         return {
+            'comment_id': self.id,
             'user_id': self.user_id,
             'content': self.content,
             'created_date': self.created_date.isoformat(),

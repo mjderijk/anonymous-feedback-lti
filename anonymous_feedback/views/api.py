@@ -1,9 +1,12 @@
+from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from blti import BLTIException
 from blti.views import RESTDispatch
 from anonymous_feedback.models import Form
 from logging import getLogger
 import json
+import csv
+import re
 
 
 logger = getLogger(__name__)
@@ -45,6 +48,10 @@ class CommentsAPI(RESTDispatch):
 
         form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
 
+        content_type = request.META.get('HTTP_ACCEPT', '').lower()
+        if 'text/csv' in content_type:
+            return self.csv_response(form.comments(), filename=form.name)
+
         data = form.json_data()
         data['comments'] = [c.json_data() for c in form.comments()]
         return self.json_response(data)
@@ -70,6 +77,21 @@ class CommentsAPI(RESTDispatch):
         form.delete_all_comments()
 
         return self.json_response(form.json_data())
+
+    def csv_response(self, comments, status=200, filename='file'):
+        response = HttpResponse(status=status, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="%s.csv"' % (
+            re.sub(r'[,/]', '-', filename))
+
+        csv.register_dialect('unix_newline', lineterminator='\n')
+        writer = csv.writer(response, dialect='unix_newline')
+        writer.writerow(['Date', 'Comment'])
+
+        for comment in comments:
+            writer.writerow([comment.created_date.isoformat(),
+                             comment.content])
+
+        return response
 
 
 class CommentAPI(RESTDispatch):
