@@ -3,8 +3,6 @@
 (function ($) {
     'use strict';
     $(document).ready(function () {
-        var API = 'api/v1/form/' + window.anonymous_feedback.canvas_course_id;
-
         $.ajaxSetup({
             crossDomain: false,
             beforeSend: function (xhr, settings) {
@@ -20,25 +18,32 @@
         });
 
         function get_form() {
-            return $.ajax({url: API, dataType: 'json'});
+            return $.ajax({
+                url: window.anonymous_feedback.form_api,
+                dataType: 'json'
+            });
         }
 
-        function get_comments(ev) {
-            var params = {url: API + '/comments'};
+        function get_comments() {
+            return $.ajax({
+                url: window.anonymous_feedback.comments_api,
+                dataType: 'json'
+            });
+        }
 
-            if (ev.data.hasOwnProperty('accept')) {
-                params.accept = ev.data.accept;
-            } else {
-                params.dataType = 'json';
-            }
-            return $.ajax(params);
+        function delete_all_comments() {
+            $.ajax({
+                url: window.anonymous_feedback.comments_api,
+                dataType: 'json',
+                type: 'DELETE'
+            }).fail().done(load_comments);
         }
 
         function submit_feedback() {
             var content = $.trim($("textarea[name='comments']").val());
 
             $.ajax({
-                url: API + '/comments',
+                url: window.anonymous_feedback.comments_api,
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'POST',
@@ -51,7 +56,7 @@
                 name = $.trim($("input[name='name']").val());
 
             $.ajax({
-                url: API,
+                url: window.anonymous_feedback.form_api,
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'PUT',
@@ -86,11 +91,13 @@
 
         function load_comments(data) {
             var template = Handlebars.compile($('#comments-tmpl').html());
+
+            data.comments_download_api = window.anonymous_feedback.comments_download_api;
+
             $('#af-content').html(template(data));
             $('#af-header').html('Comments');
-            $('af-btn-download-all').click({accept: 'text/csv'}, get_comments);
-            //$('af-btn-delete-all').click();
-            //$('af-btn-delete').click();
+            $('af-btn-delete-all').click(delete_all_comments);
+            //$('af-btn-delete').click(delete_comment);
             update_comment_count(data);
         }
 

@@ -1,3 +1,4 @@
+from django.urls import reverse
 from blti import BLTIException
 from blti.views import BLTILaunchView
 from anonymous_feedback.models import Form
@@ -18,14 +19,22 @@ class LaunchView(BLTILaunchView):
 
         context = {
             'session_id': self.request.session.session_key,
-            'course_id': course_id,
             'can_edit': False,
+            'comments_api': reverse(
+                'comments-api', kwargs={'course_id': course_id}),
         }
 
         try:
             self.authorize('admin')
-            context['can_edit'] = True
-            context['comment_count'] = len(form.comments())
+            context.update({
+                'can_edit': True,
+                'comment_count': len(form.comments()),
+                'form_api': reverse(
+                    'form-api', kwargs={'course_id': course_id}),
+                'comments_download_api': reverse(
+                    'comments-api',
+                    kwargs={'course_id': course_id, 'content_type': '.csv'}),
+            })
         except BLTIException:
             pass
 

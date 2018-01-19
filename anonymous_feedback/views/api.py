@@ -48,8 +48,8 @@ class CommentsAPI(RESTDispatch):
 
         form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
 
-        content_type = request.META.get('HTTP_ACCEPT', '').lower()
-        if 'text/csv' in content_type:
+        content_type = kwargs.get('content_type', '').lower()
+        if 'csv' in content_type:
             return self.csv_response(form.comments(), filename=form.name)
 
         data = form.json_data()

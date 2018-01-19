@@ -29,8 +29,10 @@
     <script type="text/javascript">
         window.anonymous_feedback = {
             session_id: '{{ session_id }}',
-            csrftoken: '{{ csrf_token }}',
-            canvas_course_id: '{{ course_id }}'
+            csrftoken: '{{ csrf_token }}',{% if form_api %}
+            form_api: '{{ form_api }}',{% endif %}{% if comments_download_api %}
+            comments_download_api: '{{ comments_download_api }}',{% endif %}
+            comments_api: '{{ comments_api }}'
         };
     </script>
 </body>
