@@ -32,8 +32,8 @@ class Form(models.Model):
 
     objects = FormManager()
 
-    def json_data(self):
-        return {
+    def json_data(self, include_comments=False):
+        data = {
             'course_id': self.course_id,
             'name': self.name if (self.name is not None) else '',
             'description': self.description if (
@@ -41,6 +41,11 @@ class Form(models.Model):
             'type': self.commenter_type,
             'comment_count': self.comment_set.count(),
         }
+
+        if include_comments:
+            data['comments'] = [c.json_data() for c in self.comments()]
+
+        return data
 
     def comments(self):
         return self.comment_set.all().order_by('-created_date')
