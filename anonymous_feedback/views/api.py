@@ -79,6 +79,9 @@ class CommentAPI(RESTDispatch):
         except BLTIException as err:
             return self.error_response(401, err)
 
+        comment_id = kwargs.get('comment_id')
+
         form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
+        form.delete_comment(comment_id)
 
         return self.json_response(form.json_data(include_comments=True))

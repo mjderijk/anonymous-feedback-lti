@@ -55,7 +55,7 @@ class Form(models.Model):
         comment = self.comment_set.create(content=content)
 
     def delete_comment(self, comment_id):
-        for comment in self.comment_set.all():
+        for comment in self.comments():
             if comment.id == comment_id:
                 comment.delete()
                 break

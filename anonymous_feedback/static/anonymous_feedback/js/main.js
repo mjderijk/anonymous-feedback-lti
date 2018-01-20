@@ -32,11 +32,13 @@
         }
 
         function delete_all_comments() {
-            $.ajax({
-                url: window.anonymous_feedback.comments_api,
-                dataType: 'json',
-                type: 'DELETE'
-            }).fail().done(load_comments);
+            if (confirm('Delete all comments?')) {
+                $.ajax({
+                    url: window.anonymous_feedback.comments_api,
+                    dataType: 'json',
+                    type: 'DELETE'
+                }).fail().done(load_comments);
+            }
         }
 
         function delete_comment() {
@@ -112,7 +114,7 @@
             $('#af-content').html(template(data));
             $('#af-header').html('Comments');
             $('.af-btn-delete-all').click(delete_all_comments);
-            //$('.af-btn-delete').click(delete_comment);
+            $('.af-btn-delete').click(delete_comment);
             update_comment_count(data);
         }
 
