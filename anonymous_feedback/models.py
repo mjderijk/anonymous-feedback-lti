@@ -52,7 +52,7 @@ class Form(models.Model):
 
     def add_comment(self, content=''):
         content = self.validate_comment(content)
-        comment = self.comment_set.create(content=content)
+        return self.comment_set.create(content=content)
 
     def delete_comment(self, comment_id):
         for comment in self.comments():
@@ -64,6 +64,9 @@ class Form(models.Model):
         self.comment_set.all().delete()
 
     def validate_comment(self, content):
+        if content is None:
+            raise ValidationError('Missing comment', code='missing')
+
         content = content.strip()
         if not len(content):
             raise ValidationError('Missing comment', code='missing')
