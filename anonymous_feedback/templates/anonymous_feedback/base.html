@@ -30,7 +30,7 @@
         window.anonymous_feedback = {
             session_id: '{{ session_id }}',
             csrftoken: '{{ csrf_token }}',{% if form_api %}
-            form_api: '{{ form_api }}',{% endif %}{% if comments_download_api %}
+            form_api: '{{ form_api }}',{% endif %}{% if comments_file %}
             comments_file: '{{ comments_file }}',{% endif %}
             comments_api: '{{ comments_api }}'
         };
