@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'templatetag_handlebars',
     'blti',
     'anonymous_feedback',
 )
