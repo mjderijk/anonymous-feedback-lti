@@ -62,7 +62,9 @@ class CommentsFileView(BLTIView):
         writer.writerow(['Date', 'Comment'])
 
         for comment in form.comments():
-            writer.writerow([comment.created_date.isoformat(),
-                             comment.content])
+            writer.writerow([
+                comment.created_date.strftime('%Y-%m-%d %H:%M:%S'),
+                comment.content
+            ])
 
         return response
