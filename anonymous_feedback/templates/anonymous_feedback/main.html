@@ -35,7 +35,7 @@
 {{ /if }}
 
 {{# each comments }}
-<div>{{ created_date }}</div>
+<div>{{ format_date created_date }}</div>
 <div>{{ content }}</div>
 <a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
 <hr/>
