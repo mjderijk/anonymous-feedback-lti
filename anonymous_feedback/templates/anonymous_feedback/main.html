@@ -27,12 +27,15 @@
 
 {% tplhandlebars "comments-tmpl" %}
 {{# if comments }}
-<a class="af-btn-download-all" href="{{ comments_file }}">Download all</a> |
-<a class="af-btn-delete-all" href="#">Delete all</a>
+<form action="{{ comments_file }}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="af-btn-download-all" value="Download all"> |
+    <a class="af-btn-delete-all" href="#">Delete all</a>
+</form>
 {{ /if }}
 
 {{# each comments }}
-<div>{{ created_date }}</div>
+<div>{{ format_date created_date }}</div>
 <div>{{ content }}</div>
 <a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
 <hr/>

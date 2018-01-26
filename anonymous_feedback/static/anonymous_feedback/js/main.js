@@ -1,7 +1,16 @@
 /*jslint browser: true, plusplus: true */
-/*global jQuery, Handlebars */
+/*global jQuery, Handlebars, moment */
 (function ($) {
     'use strict';
+
+    function format_date(date_str) {
+        return moment(date_str).format("MMMM D[,] YYYY [at] h:mm A");
+    }
+
+    Handlebars.registerHelper('format_date', function(date_str) {
+        return format_date(date_str);
+    });
+
     $(document).ready(function () {
         $.ajaxSetup({
             crossDomain: false,

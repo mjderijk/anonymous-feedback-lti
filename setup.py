@@ -22,9 +22,8 @@ setup(
     install_requires = [
         'Django>=1.10,<1.11',
         'django-blti>=1.2.4',
+        'django-compressor',
         'django-templatetag-handlebars',
-        'Django-Safe-EmailBackend>=0.1,<1.0',
-        'UW-RestClients-Canvas>=0.6.6,<1.0',
     ],
     license='Apache License, Version 2.0',
     description='An LTI app that allows course members to submit anonymous comments',

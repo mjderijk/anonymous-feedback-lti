@@ -50,7 +50,7 @@ class LaunchView(BLTILaunchView):
 class CommentsFileView(BLTIView):
     authorized_role = 'admin'
 
-    def render_to_response(self, context, **kwargs):
+    def post(self, request, *args, **kwargs):
         form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
 
         response = HttpResponse(content_type='text/csv')
@@ -62,7 +62,9 @@ class CommentsFileView(BLTIView):
         writer.writerow(['Date', 'Comment'])
 
         for comment in form.comments():
-            writer.writerow([comment.created_date.isoformat(),
-                             comment.content])
+            writer.writerow([
+                comment.created_date.strftime('%Y-%m-%d %H:%M:%S'),
+                comment.content
+            ])
 
         return response
