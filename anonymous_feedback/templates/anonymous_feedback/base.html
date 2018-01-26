@@ -7,9 +7,12 @@
     <meta name="HandheldFriendly" content="true">
 
     {% load staticfiles %}
-
+    {% load compress %}
+    {% compress css %}
     <link rel="stylesheet" type="text/css" href="{% static "anonymous_feedback/css/vendor/bootstrap.min.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "anonymous_feedback/css/vendor/bootstrap-responsive.min.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "anonymous_feedback/css/main.scss" %}"/>
+    {% endcompress %}
 </head>
 <body>
 
