@@ -142,6 +142,7 @@
         function initialize() {
             $('.af-btn-customize').click(init_customize);
             $('.af-btn-comments').click(init_comments);
+            $('.af-btn-preview').click(init_form);
             init_form();
         }
 

@@ -4,21 +4,23 @@
 
 {% block content %}
 {% if can_edit %}
-<div>
-	<a class="af-btn-customize" href="#">Customize form</a> |
-    <a class="af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a>
 </div>
 {% endif %}
-<h2 id="af-header"></h2>
+<h2>Anonymous Feedback Form</h2>
 <div id="af-content"></div>
 
 {% tplhandlebars "form-tmpl" %}
+<ul class="nav nav-tabs">
+    <li class="nav-item active"><a class="nav-link af-btn-preview" href="#"><strong>Preview Form</strong></a></li>
+	<li class="nav-item"><a class="nav-link af-btn-customize" href="#">Edit Feedback Form</a></li>
+    <li class="nav-item"><a class="nav-link af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+</ul>
+<h3 id="af-header"></h3>
 {{# if has_description }}
 <p>{{ description }}</p>
 {{ /if }}
 <div>
-	Your comments:
-	<textarea name="comments">{{ content }}</textarea>
+	<textarea name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
 </div>
 <div>
 	<button type="submit" class="btn af-btn af-btn-submit">Submit</button>
@@ -26,13 +28,17 @@
 {% endtplhandlebars %}
 
 {% tplhandlebars "comments-tmpl" %}
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link af-btn-preview" href="#">Preview Form</a></li>
+	<li class="nav-item"><a class="nav-link af-btn-customize" href="#">Edit Feedback Form</a></li>
+    <li class="nav-item active"><a class="nav-link af-btn-comments" href="#"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
+</ul>
 {{# if comments }}
 <form action="{{ comments_file }}" method="post">
     {% csrf_token %}
     <input type="submit" class="af-btn-download-all" value="Download all"> |
     <a class="af-btn-delete-all" href="#">Delete all</a>
 </form>
-{{ /if }}
 
 {{# each comments }}
 <div>{{ format_date created_date }}</div>
@@ -40,15 +46,26 @@
 <a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
 <hr/>
 {{ /each }}
+
+{{ else }}
+
+There are no comments for this course.
+
+{{ /if }}
 {% endtplhandlebars %}
 
 {% tplhandlebars "customize-tmpl" %}
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link af-btn-preview" href="#">Preview Form</a></li>
+	<li class="nav-item active"><a class="nav-link active af-btn-customize" href="#"><strong>Edit Feedback Form</strong></a></li>
+    <li class="nav-item"><a class="nav-link af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+</ul>
 <div>
-    <label for="form-name">Name</label>
+    <label for="form-name"><span class="sr-only">Form </span>Name</label>
     <input id="form-name" type="text" name="name" value="{{ name }}"/>
 </div>
 <div>
-    <label for="form-description">Description</label>
+    <label for="form-description"><span class="sr-only">Form </span>Description</label>
     <textarea id="form-description" name="description">{{ description }}</textarea>
 </div>
 <div>
