@@ -3,74 +3,83 @@
 {% load templatetag_handlebars %}
 
 {% block content %}
-{% if can_edit %}
-</div>
-{% endif %}
 <h2>Anonymous Feedback Form</h2>
 <div id="af-content"></div>
 
 {% tplhandlebars "form-tmpl" %}
+{% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item active"><a class="nav-link af-btn-preview" href="#"><strong>Preview Form</strong></a></li>
-	<li class="nav-item"><a class="nav-link af-btn-customize" href="#">Edit Feedback Form</a></li>
-    <li class="nav-item"><a class="nav-link af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview"><strong>Preview Form</strong></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit Form</a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
-<h3 id="af-header"></h3>
-{{# if has_description }}
-<p>{{ description }}</p>
-{{ /if }}
-<div>
-	<textarea name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
-</div>
-<div>
-	<button type="submit" class="btn af-btn af-btn-submit">Submit</button>
+{% endif %}
+<div class="content-container">
+    <h3 id="af-header"></h3>
+    {{# if has_description }}
+    <p class="form-description">{{ description }}</p>
+    {{ /if }}
+    <div class="form-input">
+    	<textarea name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
+    </div>
+    <div class="btn-container">
+    	<button type="submit" class="btn af-btn af-btn-submit btn-primary">Submit</button>
+    </div>
 </div>
 {% endtplhandlebars %}
 
 {% tplhandlebars "comments-tmpl" %}
+{% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="nav-link af-btn-preview" href="#">Preview Form</a></li>
-	<li class="nav-item"><a class="nav-link af-btn-customize" href="#">Edit Feedback Form</a></li>
-    <li class="nav-item active"><a class="nav-link af-btn-comments" href="#"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview Form</a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit Form</a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
 </ul>
-{{# if comments }}
-<form action="{{ comments_file }}" method="post">
-    {% csrf_token %}
-    <input type="submit" class="af-btn-download-all" value="Download all"> |
-    <a class="af-btn-delete-all" href="#">Delete all</a>
-</form>
-
-{{# each comments }}
-<div>{{ format_date created_date }}</div>
-<div>{{ content }}</div>
-<a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
-<hr/>
-{{ /each }}
-
-{{ else }}
-
-There are no comments for this course.
-
-{{ /if }}
+{% endif %}
+<div class="content-container">
+    {{# if comments }}
+    <form action="{{ comments_file }}" method="post">
+        {% csrf_token %}
+        <input type="submit" class="af-btn-download-all" value="Download all"> |
+        <a class="af-btn-delete-all" href="#">Delete all</a>
+    </form>
+    
+    {{# each comments }}
+    <div>{{ format_date created_date }}</div>
+    <div>{{ content }}</div>
+    <a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
+    <hr/>
+    {{ /each }}
+    
+    {{ else }}
+    
+    There are no comments for this course.
+    
+    {{ /if }}
+</div>
 {% endtplhandlebars %}
 
 {% tplhandlebars "customize-tmpl" %}
+{% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="nav-link af-btn-preview" href="#">Preview Form</a></li>
-	<li class="nav-item active"><a class="nav-link active af-btn-customize" href="#"><strong>Edit Feedback Form</strong></a></li>
-    <li class="nav-item"><a class="nav-link af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview Form</a></li>
+	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" ><strong>Edit Form</strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
-<div>
-    <label for="form-name"><span class="sr-only">Form </span>Name</label>
-    <input id="form-name" type="text" name="name" value="{{ name }}"/>
-</div>
-<div>
-    <label for="form-description"><span class="sr-only">Form </span>Description</label>
-    <textarea id="form-description" name="description">{{ description }}</textarea>
-</div>
-<div>
-    <button type="submit" class="btn af-btn af-btn-update">Update</button>
-    <button type="submit" class="btn af-btn af-btn-cancel">Cancel</button>
+{% endif %}
+<div class="content-container">
+    <div class="form-input">
+        <label for="form-name"><span class="sr-only">Form </span>Name</label>
+        <input id="form-name" type="text" name="name" value="{{ name }}"/>
+    </div>
+    <div class="form-input">
+        <label for="form-description"><span class="sr-only">Form </span>Description</label>
+        <textarea id="form-description" name="description">{{ description }}</textarea>
+    </div>
+    <div class="btn-container">
+        <button type="submit" class="btn af-btn af-btn-cancel btn-link">Cancel</button>
+        <button type="submit" class="btn af-btn af-btn-update btn-primary">Update</button>
+    </div>
 </div>
 {% endtplhandlebars %}
 

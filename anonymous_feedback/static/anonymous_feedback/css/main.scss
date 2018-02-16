@@ -1,0 +1,40 @@
+
+h2 {
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+
+h3 {
+    margin:0;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-input {
+    margin-bottom: 25px !important;
+}
+
+.form-description {
+    margin-bottom: 20px;
+}
+
+.nav-tabs {
+    margin-bottom: 30px;
+}
+
+textarea, input[type="text"] {
+    width:  95%;
+    max-width: 500px;
+}
+
+.content-container {
+    padding:0 20px 20px;
+}
+
+.btn-container {
+    width:95%;
+    max-width:500px;
+    text-align: right;
+}
