@@ -4,6 +4,10 @@ $base-font:13px;
     display:none;
 }
 
+a:focus,a:hover,button:focus,button:hover, input[type="submit"]:hover, input[type="submit"]:focus {
+    text-decoration: underline;
+}
+
 body {
     font-size: $base-font;
     text-rendering: optimizeLegibility;

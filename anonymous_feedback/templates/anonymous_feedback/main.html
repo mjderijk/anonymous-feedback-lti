@@ -5,8 +5,8 @@
 {% block content %}
 <h2>Anonymous Feedback Form</h2>
 <div id="af-accordion" class="notes">
-       <a>How "anonymous" is this form?</a>
-      <div>
+       <a href="#" aria-controls="form_notes">How "anonymous" is this form?</a>
+      <div id="form_notes">
       {% if can_edit %}
       <p>When you allow students to leave feedback using this form, <strong>you will not be able to identify the student that left the feedback</strong>.</p>
         <p>However, we will remind students that, if they leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), these agencies may be able to request logs from multiple sources to track down the student's identity.</p>
@@ -24,12 +24,12 @@
 {% tplhandlebars "form-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview"><strong>Preview <span class="sm-hidden">Form</span></strong></a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit <span class="sm-hidden">Form</span></a></li>
-    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View Comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview" aria-controls="form_submit" tab-index="-1" aria-selected="true" role="tab" title="Preview the form"><strong>Preview <span class="sm-hidden">Form</span></strong></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab" >View Comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}
-<div class="content-container">
+<div id="form_submit" class="content-container">
     <h3 id="af-header"></h3>
     {{# if has_description }}
     <p class="form-description">{{ description }}</p>
@@ -48,18 +48,18 @@
 {% tplhandlebars "comments-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview <span class="sm-hidden">Form</span></a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit <span class="sm-hidden">Form</span></a></li>
-    <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form" >Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments" aria-controls="view_comments" tab-index="-1" aria-selected="true" role="tab"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
 </ul>
 {% endif %}
-<div class="content-container comment-container">
+<div class="content-container comment-container" id="view_comments">
     {{# if comments }}
     <form action="{{ comments_file }}" method="post">
         {% csrf_token %}
         <span class="btn-container">
-        <input type="submit" class="af-btn-download-all btn btn-primary" value="Download all">
-        <a class="af-btn-delete-all btn-link btn" href="#">Delete all</a>
+        <input type="submit" class="af-btn-download-all btn btn-primary" value="Download all" title="Download all comments as a CSV file">
+        <a class="af-btn-delete-all btn-link btn" href="#" title="Delete all comments">Delete all</a>
         </span>
     </form>
 
@@ -68,7 +68,7 @@
         <div class="date">{{ format_date created_date }}</div>
         <div>
             <span class="comment">{{ content }}</span>
-            <a id="comment-{{ comment_id }}" class="af-btn-delete delete-comment clear btn-link btn" href="#">Delete</a>
+            <a id="comment-{{ comment_id }}" class="af-btn-delete delete-comment clear btn-link btn" href="#" title="Delete this comment.">Delete</a>
         </div>
     </div>
     {{ /each }}
@@ -84,12 +84,12 @@
 {% tplhandlebars "customize-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview <span class="sm-hidden">Form</span></a></li>
-	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" ><strong>Edit <span class="sm-hidden">Form</span></strong></a></li>
-    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form">Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" aria-controls="edit_form" tab-index="-1" aria-selected="true" role="tab" title="Edit the form"><strong>Edit <span class="sm-hidden" >Form</span></strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}
-<div class="content-container">
+<div class="content-container" id="edit_form">
     <div class="form-input">
         <label for="form-name"><span class="sr-only">Form </span>Name</label>
         <input id="form-name" type="text" name="name" value="{{ name }}"/>
