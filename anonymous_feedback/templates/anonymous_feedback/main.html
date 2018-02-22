@@ -53,19 +53,24 @@
     <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
 </ul>
 {% endif %}
-<div class="content-container">
+<div class="content-container comment-container">
     {{# if comments }}
     <form action="{{ comments_file }}" method="post">
         {% csrf_token %}
-        <input type="submit" class="af-btn-download-all" value="Download all"> |
-        <a class="af-btn-delete-all" href="#">Delete all</a>
+        <span class="btn-container">
+        <input type="submit" class="af-btn-download-all btn btn-primary" value="Download all">
+        <a class="af-btn-delete-all btn-link btn" href="#">Delete all</a>
+        </span>
     </form>
     
     {{# each comments }}
-    <div>{{ format_date created_date }}</div>
-    <div>{{ content }}</div>
-    <a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
-    <hr/>
+    <div class="comment-row">
+        <div class="date">{{ format_date created_date }}</div>
+        <div>
+            <span class="comment">{{ content }}</span>
+            <a id="comment-{{ comment_id }}" class="af-btn-delete delete-comment clear btn-link btn" href="#">Delete</a>
+        </div>
+    </div>
     {{ /each }}
     
     {{ else }}

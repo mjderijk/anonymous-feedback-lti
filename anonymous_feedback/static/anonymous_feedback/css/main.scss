@@ -1,4 +1,13 @@
 
+body {
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing:auto;
+}
+
+
 h2 {
     font-weight: normal;
     margin-bottom:5px;
@@ -6,6 +15,10 @@ h2 {
 
 h3 {
     margin:0;
+}
+
+.clear {
+    clear:both;    
 }
 
 label {
@@ -21,7 +34,7 @@ label {
 }
 
 .nav-tabs {
-    margin-bottom: 30px;
+    margin-top: 40px;
 }
 
 textarea, input[type="text"] {
@@ -29,8 +42,14 @@ textarea, input[type="text"] {
     max-width: 500px;
 }
 
-.content-container {
-    padding:0 20px 20px;
+textarea {
+    height: 150px;
+}
+
+
+.comment-container comment {
+    font-size: 1.5em;
+    line-height: 2;
 }
 
 .btn-container {
@@ -39,9 +58,6 @@ textarea, input[type="text"] {
     text-align: right;
 }
 
-.notes {
-    margin-bottom: 40px;
-}
 
 .notes p {
     line-height: 1.55;
@@ -51,7 +67,39 @@ textarea, input[type="text"] {
 .notes a:hover, .notes a:focus {
         cursor: pointer !important;
 
-    }
+}
+
+.comment-container form {
+    text-align:right;
+    margin-bottom: 0;
+    padding: 0 0 .8rem; 
+}
+
+.comment-row {
+    border-bottom: #ccc solid 1px;
+    padding: .5rem 1rem 1.5rem;
+}
+
+.comment-row:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.date {
+    color:#787878;
+    font-size: .8rem;
+    padding-bottom:.5rem;
+}
+
+.comment {
+    font-size: 1rem;
+    padding: .5rem 0 .8rem;
+    
+}
+
+.delete-comment {
+    float:right;
+    margin-top: -.5rem;
+}
     
 .ui-accordion-content {
     max-width:500px;
