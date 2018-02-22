@@ -4,19 +4,19 @@
 
 {% block content %}
 <h2>Anonymous Feedback Form</h2>
-<div id="accordion" class="notes">
+<div id="af-accordion" class="notes">
        <a>How "anonymous" is this form?</a>
       <div>
       {% if can_edit %}
-      <p>When you allow students to leave feedback using this form, you will not <strong>not</strong> be able to identify the student that left the feedback.</p> 
+      <p>When you allow students to leave feedback using this form, you will not <strong>not</strong> be able to identify the student that left the feedback.</p>
         <p>However, we will remind students that, if they leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), these agencies may be able to request logs from multiple sources to track down their identity.</p>
-    
+
     {% else %}
-    <p>When you leave feedback using this form, your instructors and other Canvas administrators will <strong>not</strong> be able to identify you.</p> 
+    <p>When you leave feedback using this form, your instructors and other Canvas administrators will <strong>not</strong> be able to identify you.</p>
         <p>However, if you leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), they may be able to request logs from multiple sources to track down your identity.</p>
         <p>So, be respectful and be heard!</p>
     {% endif %}
-      </div> 
+      </div>
     </div>
 <div id="af-content"></div>
 
@@ -62,7 +62,7 @@
         <a class="af-btn-delete-all btn-link btn" href="#">Delete all</a>
         </span>
     </form>
-    
+
     {{# each comments }}
     <div class="comment-row">
         <div class="date">{{ format_date created_date }}</div>
@@ -72,11 +72,11 @@
         </div>
     </div>
     {{ /each }}
-    
+
     {{ else }}
-    
+
     There are no comments for this course.
-    
+
     {{ /if }}
 </div>
 {% endtplhandlebars %}

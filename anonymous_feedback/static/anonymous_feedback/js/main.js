@@ -40,13 +40,23 @@
             });
         }
 
+        function delete_error(xhr) {
+            var data;
+            try {
+                data = $.parseJSON(xhr.responseText);
+            } catch (e) {
+                data = {error: xhr.responseText};
+            }
+            alert('Delete failed: ' + data.error);
+        }
+
         function delete_all_comments() {
             if (confirm('Delete all comments?')) {
                 $.ajax({
                     url: window.anonymous_feedback.comments_api,
                     dataType: 'json',
                     type: 'DELETE'
-                }).fail().done(load_comments);
+                }).fail(delete_error).done(load_comments);
             }
         }
 
@@ -54,16 +64,15 @@
             /*jshint validthis: true */
             var comment_id = $(this).attr('id').replace('comment-', '');
 
-            if (!comment_id.match(/^[0-9]+$/)) {
-                alert('Invalid');
-                return;
+            if (comment_id.match(/^[0-9]+$/)) {
+                if (confirm('Delete this comment?')) {
+                    $.ajax({
+                        url: window.anonymous_feedback.comments_api + '/' + comment_id,
+                        dataType: 'json',
+                        type: 'DELETE'
+                    }).fail(delete_error).done(load_comments);
+                }
             }
-
-            $.ajax({
-                url: window.anonymous_feedback.comments_api + '/' + comment_id,
-                dataType: 'json',
-                type: 'DELETE'
-            }).fail().done(load_comments);
         }
 
         function add_comment() {
@@ -134,28 +143,37 @@
             update_comment_count(data);
         }
 
+        function load_error(xhr) {
+            var data, template, source;
+            try {
+                data = $.parseJSON(xhr.responseText);
+            } catch (e) {
+                data = {error: xhr.responseText};
+            }
+            source = $("#" + xhr.status + '-tmpl').html();
+            if (source) {
+                template = Handlebars.compile(source);
+                $('#af-content').html(template(data));
+            }
+        }
+
         function init_customize() {
-            get_form().fail().done(load_customize);
+            get_form().fail(load_error).done(load_customize);
         }
 
         function init_comments() {
-            get_comments().fail().done(load_comments);
+            get_comments().fail(load_error).done(load_comments);
         }
 
         function init_form() {
-            get_form().fail().done(load_form);
+            get_form().fail(load_error).done(load_form);
         }
 
         function initialize() {
             init_form();
+            $('#af-accordion').accordion({collapsible: true, active: false});
         }
 
         initialize();
     });
 }(jQuery));
-
-$( function() {
-            $( "#accordion" ).accordion({
-              collapsible: true, active: false
-            });
-          } );
