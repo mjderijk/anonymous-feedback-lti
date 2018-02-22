@@ -93,12 +93,15 @@ textarea {
 .comment {
     font-size: 1rem;
     padding: .5rem 0 .8rem;
+    display: inline-block;
+    max-width: 75%;
     
 }
 
 .delete-comment {
     float:right;
     margin-top: -.5rem;
+    max-width: 10%;
 }
     
 .ui-accordion-content {
