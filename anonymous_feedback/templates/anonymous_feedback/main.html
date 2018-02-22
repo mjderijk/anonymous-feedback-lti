@@ -8,8 +8,8 @@
        <a>How "anonymous" is this form?</a>
       <div>
       {% if can_edit %}
-      <p>When you allow students to leave feedback using this form, you will not <strong>not</strong> be able to identify the student that left the feedback.</p>
-        <p>However, we will remind students that, if they leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), these agencies may be able to request logs from multiple sources to track down their identity.</p>
+      <p>When you allow students to leave feedback using this form, <strong>you will not be able to identify the student that left the feedback</strong>.</p>
+        <p>However, we will remind students that, if they leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), these agencies may be able to request logs from multiple sources to track down the student's identity.</p>
 
     {% else %}
     <p>When you leave feedback using this form, your instructors and other Canvas administrators will <strong>not</strong> be able to identify you.</p>
@@ -24,9 +24,9 @@
 {% tplhandlebars "form-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview"><strong>Preview Form</strong></a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit Form</a></li>
-    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview"><strong>Preview <span class="sm-hidden">Form</span></strong></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View Comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}
 <div class="content-container">
@@ -48,8 +48,8 @@
 {% tplhandlebars "comments-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview Form</a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit Form</a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" >Edit <span class="sm-hidden">Form</span></a></li>
     <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
 </ul>
 {% endif %}
@@ -84,8 +84,8 @@
 {% tplhandlebars "customize-tmpl" %}
 {% if can_edit %}
 <ul class="nav nav-tabs">
-    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview Form</a></li>
-	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" ><strong>Edit Form</strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview">Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" ><strong>Edit <span class="sm-hidden">Form</span></strong></a></li>
     <li class="nav-item"><a href="#" class="nav-link af-btn-comments">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}

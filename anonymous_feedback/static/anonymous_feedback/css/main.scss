@@ -1,6 +1,11 @@
+$base-font:13px;
+
+.sm-hidden {
+    display:none;
+}
 
 body {
-    font-size: 15px;
+    font-size: $base-font;
     text-rendering: optimizeLegibility;
     font-smooth: always;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -35,6 +40,10 @@ label {
 
 .nav-tabs {
     margin-top: 40px;
+    &>li>a {
+        padding: 8px;
+        font-size:.75rem;
+    }
 }
 
 textarea, input[type="text"] {
@@ -55,33 +64,33 @@ textarea {
 .btn-container {
     width:95%;
     max-width:500px;
-    text-align: right;
+    text-align: center;
+    display:block;
 }
 
 
-.notes p {
+.notes {
+    p {
     line-height: 1.55;
     padding: 5px 5px 10px;
-}
-
-.notes a:hover, .notes a:focus {
+    }
+    a:hover, a:focus {
         cursor: pointer !important;
-
+    }
 }
 
 .comment-container form {
     text-align:right;
-    margin-bottom: 0;
+    margin-bottom: 2.5rem;
     padding: 0 0 .8rem; 
 }
 
 .comment-row {
     border-bottom: #ccc solid 1px;
     padding: .5rem 1rem 1.5rem;
-}
-
-.comment-row:nth-child(odd) {
+    &:nth-child(odd) {
     background-color: #f9f9f9;
+    }
 }
 
 .date {
@@ -95,6 +104,7 @@ textarea {
     padding: .5rem 0 .8rem;
     display: inline-block;
     max-width: 75%;
+    line-height:1.7;
     
 }
 
@@ -108,3 +118,22 @@ textarea {
     max-width:500px;
     font-size: .85rem;
 }
+
+
+@media only screen and (min-width : 480px) {
+    $base-font: 15px;
+    
+        span.sm-hidden {
+            display:inline;
+        }
+        .nav-tabs {
+            &>li>a {
+                padding: 12px;
+                font-size:inherit;
+            }
+        }
+        .btn-container {
+            text-align: right;
+            display:inline;
+        }
+    }
