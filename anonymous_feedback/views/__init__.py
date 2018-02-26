@@ -52,10 +52,11 @@ class CommentsFileView(BLTIView):
 
     def post(self, request, *args, **kwargs):
         form = Form.objects.get_by_course_id(self.blti.canvas_course_id)
+        name = '%s-Anonymous-Feedback.csv' % (
+            re.sub(r'[,/ ]', '-', self.blti.course_short_name))
 
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="%s.csv"' % (
-            re.sub(r'[,/]', '-', form.name))
+        response['Content-Disposition'] = 'attachment; filename="%s"' % name
 
         csv.register_dialect('unix_newline', lineterminator='\n')
         writer = csv.writer(response, dialect='unix_newline')
@@ -64,7 +65,7 @@ class CommentsFileView(BLTIView):
         for comment in form.comments():
             writer.writerow([
                 comment.created_date.strftime('%Y-%m-%d %H:%M:%S'),
-                comment.content
+                comment.content.encode('utf-8')
             ])
 
         return response
