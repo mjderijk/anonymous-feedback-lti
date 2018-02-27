@@ -1,2 +1,2 @@
-include umail/VERSION
-recursive-include umail *
+include anonymous_feedback/VERSION
+recursive-include anonymous_feedback *
