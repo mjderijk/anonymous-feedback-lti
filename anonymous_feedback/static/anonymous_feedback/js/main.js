@@ -115,6 +115,7 @@
             $('a.af-btn-customize').click(init_customize);
             $('a.af-btn-comments').click(init_comments);
             $('a.af-btn-preview').click(init_form);
+            $('#af-form-feedback').focus();
             update_comment_count(data);
         }
 
@@ -127,6 +128,7 @@
             $('a.af-btn-customize').click(init_customize);
             $('a.af-btn-comments').click(init_comments);
             $('a.af-btn-preview').click(init_form);
+            $('#af-form-name').focus();
             update_comment_count(data);
         }
 
