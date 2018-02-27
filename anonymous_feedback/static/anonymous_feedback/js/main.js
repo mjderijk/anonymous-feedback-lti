@@ -142,6 +142,7 @@
             $('a.af-btn-customize').click(init_customize);
             $('a.af-btn-comments').click(init_comments);
             $('a.af-btn-preview').click(init_form);
+            $('#af-download-all').focus();
             update_comment_count(data);
         }
 
