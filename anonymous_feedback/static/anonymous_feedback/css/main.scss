@@ -1,0 +1,143 @@
+$base-font:13px;
+
+.sm-hidden {
+    display:none;
+}
+
+a:focus,a:hover,button:focus,button:hover, input[type="submit"]:hover, input[type="submit"]:focus {
+    text-decoration: underline;
+}
+
+body {
+    font-size: $base-font;
+    text-rendering: optimizeLegibility;
+    font-smooth: always;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing:auto;
+}
+
+
+h2 {
+    font-weight: normal;
+    margin-bottom:5px;
+}
+
+h3 {
+    margin:0;
+}
+
+.clear {
+    clear:both;    
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-input {
+    margin-bottom: 25px !important;
+}
+
+.form-description {
+    margin-bottom: 20px;
+}
+
+.nav-tabs {
+    margin-top: 40px;
+    &>li>a {
+        padding: 8px;
+        font-size:.75rem;
+    }
+}
+
+textarea, input[type="text"] {
+    width:  95%;
+    max-width: 500px;
+}
+
+textarea {
+    height: 150px;
+}
+
+
+.comment-container comment {
+    font-size: 1.5em;
+    line-height: 2;
+}
+
+.btn-container {
+    width:95%;
+    max-width:500px;
+    text-align: center;
+    display:block;
+}
+
+
+.notes {
+    p {
+    line-height: 1.55;
+    padding: 5px 5px 10px;
+    }
+    a:hover, a:focus {
+        cursor: pointer !important;
+    }
+}
+
+.comment-container form {
+    text-align:right;
+    margin-bottom: 2.5rem;
+    padding: 0 0 .8rem; 
+}
+
+.comment-row {
+    border-bottom: #ccc solid 1px;
+    padding: .5rem 1rem 1.5rem;
+    &:nth-child(odd) {
+    background-color: #f9f9f9;
+    }
+}
+
+.date {
+    color:#787878;
+    font-size: .8rem;
+    padding-bottom:.5rem;
+}
+
+.comment {
+    font-size: 1rem;
+    padding: .5rem 0 .8rem;
+    display: inline-block;
+    max-width: 75%;
+    line-height:1.7;
+    
+}
+
+.delete-comment {
+    float:right;
+    margin-top: -.5rem;
+    max-width: 10%;
+}
+    
+.ui-accordion-content {
+    max-width:500px;
+    font-size: .85rem;
+}
+
+
+@media only screen and (min-width : 480px) {
+    $base-font: 15px;
+    
+        span.sm-hidden {
+            display:inline;
+        }
+        .nav-tabs {
+            &>li>a {
+                padding: 12px;
+                font-size:inherit;
+            }
+        }
+        .btn-container {
+            text-align: right;
+            display:inline;
+        }
+    }

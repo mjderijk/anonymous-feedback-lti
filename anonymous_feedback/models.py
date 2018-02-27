@@ -32,6 +32,9 @@ class Form(models.Model):
 
     objects = FormManager()
 
+    class Meta:
+        app_label = 'anonymous_feedback'
+
     def json_data(self, include_comments=False):
         data = {
             'course_id': self.course_id,
@@ -78,6 +81,9 @@ class Comment(models.Model):
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
+
+    class Meta:
+        app_label = 'anonymous_feedback'
 
     def json_data(self):
         return {

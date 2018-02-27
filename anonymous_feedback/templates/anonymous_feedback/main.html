@@ -3,57 +3,105 @@
 {% load templatetag_handlebars %}
 
 {% block content %}
-{% if can_edit %}
-<div>
-	<a class="af-btn-customize" href="#">Customize form</a> |
-    <a class="af-btn-comments" href="#">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a>
-</div>
-{% endif %}
-<h2 id="af-header"></h2>
+<h2>Anonymous Feedback Form</h2>
+<div id="af-accordion" class="notes">
+       <a href="#" aria-controls="form_notes">How "anonymous" is this form?</a>
+      <div id="form_notes">
+      {% if can_edit %}
+      <p>When you allow students to leave feedback using this form, <strong>you will not be able to identify the student that left the feedback</strong>.</p>
+        <p>However, we will remind students that, if they leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), these agencies may be able to request logs from multiple sources to track down the student's identity.</p>
+
+    {% else %}
+    <p>When you leave feedback using this form, your instructors and other Canvas administrators will <strong>not</strong> be able to identify you.</p>
+        <p>However, if you leave comments that require investigation by law enforcement (e.g. direct threats, harassment, etc.), they may be able to request logs from multiple sources to track down your identity.</p>
+        <p>So, be respectful and be heard!</p>
+    {% endif %}
+      </div>
+    </div>
 <div id="af-content"></div>
 
+
 {% tplhandlebars "form-tmpl" %}
-{{# if has_description }}
-<p>{{ description }}</p>
-{{ /if }}
-<div>
-	Your comments:
-	<textarea name="comments">{{ content }}</textarea>
+{% if can_edit %}
+<ul class="nav nav-tabs">
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview" aria-controls="form_submit" tab-index="-1" aria-selected="true" role="tab" title="Preview the form"><strong>Preview <span class="sm-hidden">Form</span></strong></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab" >View Comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+</ul>
+{% endif %}
+<div id="form_submit" class="content-container">
+    <h3 id="af-header"></h3>
+    {{# if has_description }}
+    <p class="form-description">{{ description }}</p>
+    {{ /if }}
+    <div class="form-input">
+    	<textarea name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
+    </div>
+    <div class="btn-container">
+    	<button type="submit" class="btn af-btn af-btn-submit btn-primary">Submit</button>
+    </div>
 </div>
-<div>
-	<button type="submit" class="btn af-btn af-btn-submit">Submit</button>
-</div>
+
+
 {% endtplhandlebars %}
 
 {% tplhandlebars "comments-tmpl" %}
-{{# if comments }}
-<form action="{{ comments_file }}" method="post">
-    {% csrf_token %}
-    <input type="submit" class="af-btn-download-all" value="Download all"> |
-    <a class="af-btn-delete-all" href="#">Delete all</a>
-</form>
-{{ /if }}
+{% if can_edit %}
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form" >Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments" aria-controls="view_comments" tab-index="-1" aria-selected="true" role="tab"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
+</ul>
+{% endif %}
+<div class="content-container comment-container" id="view_comments">
+    {{# if comments }}
+    <form action="{{ comments_file }}" method="post">
+        {% csrf_token %}
+        <span class="btn-container">
+        <input type="submit" class="af-btn-download-all btn btn-primary" value="Download all" title="Download all comments as a CSV file">
+        <a class="af-btn-delete-all btn-link btn" href="#" title="Delete all comments">Delete all</a>
+        </span>
+    </form>
 
-{{# each comments }}
-<div>{{ created_date }}</div>
-<div>{{ content }}</div>
-<a id="comment-{{ comment_id }}" class="af-btn-delete" href="#">Delete comment</a>
-<hr/>
-{{ /each }}
+    {{# each comments }}
+    <div class="comment-row">
+        <div class="date">{{ format_date created_date }}</div>
+        <div>
+            <span class="comment">{{ content }}</span>
+            <a id="comment-{{ comment_id }}" class="af-btn-delete delete-comment clear btn-link btn" href="#" title="Delete this comment.">Delete</a>
+        </div>
+    </div>
+    {{ /each }}
+
+    {{ else }}
+
+    There are no comments for this course.
+
+    {{ /if }}
+</div>
 {% endtplhandlebars %}
 
 {% tplhandlebars "customize-tmpl" %}
-<div>
-    <label for="form-name">Name</label>
-    <input id="form-name" type="text" name="name" value="{{ name }}"/>
-</div>
-<div>
-    <label for="form-description">Description</label>
-    <textarea id="form-description" name="description">{{ description }}</textarea>
-</div>
-<div>
-    <button type="submit" class="btn af-btn af-btn-update">Update</button>
-    <button type="submit" class="btn af-btn af-btn-cancel">Cancel</button>
+{% if can_edit %}
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form">Preview <span class="sm-hidden">Form</span></a></li>
+	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" aria-controls="edit_form" tab-index="-1" aria-selected="true" role="tab" title="Edit the form"><strong>Edit <span class="sm-hidden" >Form</span></strong></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
+</ul>
+{% endif %}
+<div class="content-container" id="edit_form">
+    <div class="form-input">
+        <label for="form-name"><span class="sr-only">Form </span>Name</label>
+        <input id="form-name" type="text" name="name" value="{{ name }}"/>
+    </div>
+    <div class="form-input">
+        <label for="form-description"><span class="sr-only">Form </span>Description</label>
+        <textarea id="form-description" name="description">{{ description }}</textarea>
+    </div>
+    <div class="btn-container">
+        <button type="submit" class="btn af-btn af-btn-cancel btn-link">Cancel</button>
+        <button type="submit" class="btn af-btn af-btn-update btn-primary">Update</button>
+    </div>
 </div>
 {% endtplhandlebars %}
 
