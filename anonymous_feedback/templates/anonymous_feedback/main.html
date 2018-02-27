@@ -25,7 +25,7 @@
 {% if can_edit %}
 <ul class="nav nav-tabs">
     <li class="nav-item active"><a href="#" class="nav-link active af-btn-preview" aria-controls="form_submit" tab-index="-1" aria-selected="true" role="tab" title="Preview the form"><strong>Preview <span class="sm-hidden">Form</span></strong></a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
     <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab" >View Comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}
@@ -35,10 +35,10 @@
     <p class="form-description">{{ description }}</p>
     {{ /if }}
     <div class="form-input">
-    	<textarea name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
+        <textarea id="af-form-feedback" name="comments" placeholder="Leave your comments here.">{{ content }}</textarea>
     </div>
     <div class="btn-container">
-    	<button type="submit" class="btn af-btn af-btn-submit btn-primary">Submit</button>
+        <button type="submit" class="btn af-btn af-btn-submit btn-primary">Submit</button>
     </div>
 </div>
 
@@ -49,7 +49,7 @@
 {% if can_edit %}
 <ul class="nav nav-tabs">
     <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form" >Preview <span class="sm-hidden">Form</span></a></li>
-	<li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
+    <li class="nav-item"><a href="#" class="nav-link af-btn-customize" aria-controls="edit_form" role="tab" title="Edit the form">Edit <span class="sm-hidden">Form</span></a></li>
     <li class="nav-item active"><a href="#" class="nav-link active af-btn-comments" aria-controls="view_comments" tab-index="-1" aria-selected="true" role="tab"><strong>View comments (<span class="af-comment-count">{{ comment_count }}</span>)</strong></a></li>
 </ul>
 {% endif %}
@@ -85,18 +85,18 @@
 {% if can_edit %}
 <ul class="nav nav-tabs">
     <li class="nav-item"><a href="#" class="nav-link af-btn-preview" aria-controls="form_submit" role="tab" title="Preview the form">Preview <span class="sm-hidden">Form</span></a></li>
-	<li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" aria-controls="edit_form" tab-index="-1" aria-selected="true" role="tab" title="Edit the form"><strong>Edit <span class="sm-hidden" >Form</span></strong></a></li>
+    <li class="nav-item active"><a href="#" class="nav-link active af-btn-customize" aria-controls="edit_form" tab-index="-1" aria-selected="true" role="tab" title="Edit the form"><strong>Edit <span class="sm-hidden" >Form</span></strong></a></li>
     <li class="nav-item"><a href="#" class="nav-link af-btn-comments" aria-controls="view_comments" role="tab">View comments (<span class="af-comment-count">{{ comment_count }}</span>)</a></li>
 </ul>
 {% endif %}
 <div class="content-container" id="edit_form">
     <div class="form-input">
-        <label for="form-name"><span class="sr-only">Form </span>Name</label>
-        <input id="form-name" type="text" name="name" value="{{ name }}"/>
+        <label for="af-form-name"><span class="sr-only">Form </span>Name</label>
+        <input id="af-form-name" type="text" name="name" value="{{ name }}"/>
     </div>
     <div class="form-input">
-        <label for="form-description"><span class="sr-only">Form </span>Description</label>
-        <textarea id="form-description" name="description">{{ description }}</textarea>
+        <label for="af-form-description"><span class="sr-only">Form </span>Description</label>
+        <textarea id="af-form-description" name="description">{{ description }}</textarea>
     </div>
     <div class="btn-container">
         <button type="submit" class="btn af-btn af-btn-cancel btn-link">Cancel</button>
