@@ -27,6 +27,8 @@ class LaunchView(BLTILaunchView):
         context = {
             'session_id': self.request.session.session_key,
             'can_edit': False,
+            'form_api': reverse(
+                'form-api', kwargs={'course_id': course_id}),
             'comments_api': reverse(
                 'comments-api', kwargs={'course_id': course_id}),
         }
@@ -36,8 +38,6 @@ class LaunchView(BLTILaunchView):
             context.update({
                 'can_edit': True,
                 'comment_count': len(form.comments()),
-                'form_api': reverse(
-                    'form-api', kwargs={'course_id': course_id}),
                 'comments_file': reverse(
                     'comments-file', kwargs={'course_id': course_id}),
             })
