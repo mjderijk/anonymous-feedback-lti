@@ -31,10 +31,10 @@
     <script type="text/javascript">
         window.anonymous_feedback = {
             session_id: '{{ session_id }}',
-            csrftoken: '{{ csrf_token }}',{% if form_api %}
-            form_api: '{{ form_api }}',{% endif %}{% if comments_file %}
-            comments_file: '{{ comments_file }}',{% endif %}
-            comments_api: '{{ comments_api }}'
+            csrftoken: '{{ csrf_token }}',
+            form_api: '{{ form_api }}',
+            comments_api: '{{ comments_api }}'{% if comments_file %},
+            comments_file: '{{ comments_file }}'{% endif %}
         };
     </script>
 </body>
