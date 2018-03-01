@@ -168,12 +168,12 @@
             get_form().fail(load_error).done(load_customize);
         }
 
-        function init_comments(ev) {
+        function init_comments() {
             $('#af-form-comments-link').tab('show');
             get_comments().fail(load_error).done(load_comments);
         }
 
-        function init_form(ev) {
+        function init_form() {
             $('#af-form-preview-link').tab('show');
             get_form().fail(load_error).done(load_form);
         }
