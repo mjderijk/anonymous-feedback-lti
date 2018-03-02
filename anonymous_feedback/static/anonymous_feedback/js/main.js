@@ -3,6 +3,12 @@
 (function ($) {
     'use strict';
 
+    var transition_tmpl = Handlebars.compile($('#transition-tmpl').html());
+
+    function transition() {
+        $('#af-content').html(transition_tmpl());
+    }
+
     function format_date(date_str) {
         return moment(date_str).format("MMMM D[,] YYYY [at] h:mm A");
     }
@@ -23,13 +29,9 @@
                     xhr.setRequestHeader('X-CSRFToken',
                                          window.anonymous_feedback.csrftoken);
                 }
-                display_loading();
+                transition();
             }
         });
-
-        function display_loading() {
-            $('#af-content').html('Loading...');
-        }
 
         function get_form() {
             return $.ajax({

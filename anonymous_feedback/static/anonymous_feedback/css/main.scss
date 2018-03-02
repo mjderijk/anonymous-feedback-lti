@@ -28,7 +28,7 @@ h3 {
 }
 
 .clear {
-    clear:both;    
+    clear:both;
 }
 
 label {
@@ -48,6 +48,9 @@ label {
     &>li>a {
         padding: 8px;
         font-size:.75rem;
+    }
+    &>li.active>a {
+        font-weight: bold;
     }
 }
 
@@ -87,7 +90,7 @@ textarea {
 .comment-container form {
     text-align:right;
     margin-bottom: 2.5rem;
-    padding: 0 0 .8rem; 
+    padding: 0 0 .8rem;
 }
 
 .comment-row {
@@ -110,7 +113,7 @@ textarea {
     display: inline-block;
     max-width: 75%;
     line-height:1.7;
-    
+
 }
 
 .delete-comment {
@@ -118,7 +121,7 @@ textarea {
     margin-top: -.5rem;
     max-width: 10%;
 }
-    
+
 .ui-accordion-content {
     max-width:500px;
     font-size: .85rem;
@@ -127,7 +130,7 @@ textarea {
 
 @media only screen and (min-width : 480px) {
     $base-font: 15px;
-    
+
         span.sm-hidden {
             display:inline;
         }
