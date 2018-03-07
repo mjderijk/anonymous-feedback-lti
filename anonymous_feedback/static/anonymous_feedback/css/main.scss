@@ -54,6 +54,16 @@ label {
     }
 }
 
+.loading {
+    background: transparent url('../img/spinner.gif') center center no-repeat;
+    width: 50px;
+    height:50px;
+}
+
+.loading-container {
+    margin: 40px 10px;
+}
+
 textarea, input[type="text"] {
     width:  95%;
     max-width: 500px;

@@ -39,6 +39,7 @@
         <button type="submit" class="btn af-btn af-btn-submit btn-primary">Submit</button>
     </div>
 </div>
+
 {% endtplhandlebars %}
 
 {% tplhandlebars "comments-tmpl" %}
@@ -91,8 +92,9 @@
 {% endtplhandlebars %}
 
 {% tplhandlebars "transition-tmpl" %}
-<div class="content-container">
-    Loading...
+<div class="loading-container">
+    <div class="loading"></div>
+    <div><strong>Loading...</strong></div>
 </div>
 {% endtplhandlebars %}
 {% endblock %}
