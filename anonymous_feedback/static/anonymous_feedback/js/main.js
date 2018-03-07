@@ -104,7 +104,7 @@
                 contentType: 'application/json',
                 type: 'PUT',
                 data: JSON.stringify({name: name, description: description})
-            }).fail(load_customize).done(load_form);
+            }).fail(load_customize).done(init_form);
         }
 
         function update_comment_count(data) {

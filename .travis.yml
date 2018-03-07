@@ -13,7 +13,7 @@ before_script:
 script:
 - pycodestyle anonymous_feedback/ --exclude=migrations
 - jshint anonymous_feedback/static/anonymous_feedback/js/ --verbose
-- coverage run --source=anonymous_feedback/ manage.py test anonymous_feedback
+- coverage run --source=anonymous_feedback/ --omit=anonymous_feedback/migrations/* manage.py test anonymous_feedback
 after_success:
 - coveralls
 before_deploy:
