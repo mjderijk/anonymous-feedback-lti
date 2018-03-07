@@ -1,5 +1,11 @@
 $base-font:13px;
 
+@keyframes fadeIn {
+       0% {opacity: 0;}
+       100% {opacity: 1;}
+} 
+
+
 .sm-hidden {
     display:none;
 }
@@ -61,7 +67,9 @@ label {
 }
 
 .loading-container {
-    margin: 40px 10px;
+    margin: 40px 15%;
+    animation: fadeIn 3s 1;
+    width:200px;
 }
 
 textarea, input[type="text"] {
