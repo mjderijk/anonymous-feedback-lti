@@ -1,5 +1,11 @@
 $base-font:13px;
 
+@keyframes fadeIn {
+       0% {opacity: 0;}
+       100% {opacity: 1;}
+} 
+
+
 .sm-hidden {
     display:none;
 }
@@ -52,6 +58,18 @@ label {
     &>li.active>a {
         font-weight: bold;
     }
+}
+
+.loading {
+    background: transparent url('../img/spinner.gif') center center no-repeat;
+    width: 50px;
+    height:50px;
+}
+
+.loading-container {
+    margin: 40px 15%;
+    animation: fadeIn 3s 1;
+    width:200px;
 }
 
 textarea, input[type="text"] {
